@@ -1,0 +1,54 @@
+<section id="todos" class="<%= list_class(@list) %>" >
+  <header>
+    <h2><%= @list[:name] %></h2> 
+
+    <ul>
+      <li>
+        <form action="/lists/<%= @list_id %>/todos/complete_all" method="post">
+          <button class="check" type="submit">Complete All</button>
+        </form>
+      </li>
+
+      <li><a class="edit" href="/lists/<%= @list_id %>/edit">Edit list</a></li>
+    </ul>
+    <br>
+  </header>
+
+  <ul>
+    <% sort_todos(@list[:todos]) do |todo| %>
+      <li <%== "class='complete'" if todo[:complete] %> >
+
+        <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/update" method="post" class="check">
+          <input type="hidden" name="complete" value=<%= !todo[:complete] %> />
+          <button type="submit"></button>
+        </form>
+
+        <h3><%= todo[:name] %></h3>
+
+        <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/delete" method="post" class="delete">
+          <button type="submit">Delete</button>
+        </form>
+
+      </li>
+    <% end %>
+  </ul>
+</section>
+
+<form action="/lists/<%= @list_id %>/todos" method="post">
+  <dl>
+    <dt>
+      <label for="todo">Enter a new todo item:</label>
+    </dt>
+      <dd>
+        <% invalid_todo = session.delete(:invalid_name) %>
+      <input name="todo" placeholder="Something to do" type="text" value="<%= invalid_todo %>">
+    </dd>
+  </dl>
+  <fieldset class="actions">
+    <input type="submit" value="Add">
+  </fieldset>
+</form>
+
+<% content_for :header_links do %>
+  <a class="list" href="/lists">Return to all lists</a>
+<% end %>
