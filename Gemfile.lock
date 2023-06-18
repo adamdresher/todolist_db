@@ -1,17 +1,26 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.1)
+    addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
-    async (1.31.0)
-      console (~> 1.10)
-      nio4r (~> 2.3)
-      timers (~> 4.1)
-    backports (3.6.8)
-    console (1.16.2)
-      fiber-local
-    core-async (0.5.0)
-      async (~> 1.28)
+    backports (3.24.1)
+    core-async (0.10.1)
+      core-inspect (~> 0.0)
+      io-event (~> 1.0)
+      timers (~> 4.3)
+    core-extension (0.4.2)
+    core-global (0.2.0)
+      core-extension (~> 0.3)
+    core-inspect (0.1.1)
+      core-extension (~> 0.3)
+      core-local (~> 0.0)
+      core-state (~> 0.0)
+    core-local (0.1.2)
+      core-extension (~> 0.3)
+      core-global (~> 0.0)
+    core-state (0.1.8)
+      core-extension (~> 0.3)
+      core-local (~> 0.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
@@ -19,34 +28,40 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
-    fiber-local (1.0.0)
-    http (4.4.1)
-      addressable (~> 2.3)
+    http (5.1.1)
+      addressable (~> 2.8)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
-      http-parser (~> 1.2.0)
+      llhttp-ffi (~> 0.4.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    http-parser (1.2.3)
-      ffi-compiler (>= 1.0, < 2.0)
-    msgpack (1.6.0)
-    multi_json (1.12.1)
-    nio4r (2.5.8)
-    proc (0.10.0)
-      core-async (~> 0.5.0)
-      http (~> 4.4)
+    io-event (1.2.2)
+    llhttp-ffi (0.4.0)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
+    msgpack (1.7.1)
+    multi_json (1.15.0)
+    nio4r (2.5.9)
+    proc (0.15.1)
+      core-async (~> 0.10)
+      core-global (~> 0.1)
+      core-inspect (~> 0.1)
+      http (~> 5.0)
       msgpack (~> 1.4)
+      proc-composer (~> 0.1)
+    proc-composer (0.1.0)
+      core-inspect (~> 0.1)
     public_suffix (5.0.1)
-    puma (6.1.1)
+    puma (6.3.0)
       nio4r (~> 2.0)
-    rack (1.6.4)
-    rack-protection (1.5.3)
+    rack (1.6.13)
+    rack-protection (1.5.5)
       rack
-    rack-test (0.6.3)
-      rack (>= 1.0)
+    rack-test (2.1.0)
+      rack (>= 1.3)
     rake (13.0.6)
-    sinatra (1.4.7)
+    sinatra (1.4.8)
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
@@ -57,14 +72,15 @@ GEM
       rack-test
       sinatra (~> 1.4.0)
       tilt (>= 1.3, < 3)
-    tilt (2.0.5)
+    tilt (2.2.0)
     timers (4.3.5)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   erubis
@@ -74,7 +90,7 @@ DEPENDENCIES
   sinatra-contrib
 
 RUBY VERSION
-   ruby 2.7.6p219
+   ruby 3.2.1p31
 
 BUNDLED WITH
-   1.12.5
+   2.4.13
