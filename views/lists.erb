@@ -1,6 +1,6 @@
 <ul id="lists">
   <% sort_lists(@lists) do |list| %>
-    <li class="<%= list_class(list) %>" >
+    <li class="<%= list_status(list) %>" >
       <a href="/lists/<%= list[:id] %>">
         <h2><%= list[:name] %></h2> 
         <p><%= total_todos_remaining(list) %> / <%= total_todos(list) %></p>
