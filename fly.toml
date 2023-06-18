@@ -1,7 +1,10 @@
-# fly.toml file generated for todoslist on 2023-03-09T00:49:33+07:00
+# fly.toml app configuration file generated for todoslist-db on 2023-06-17T16:34:54+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "todoslist"
-kill_signal = "SIGINT"
+app = "todoslist-db"
+primary_region = "sin"
 kill_timeout = 5
 processes = []
 
