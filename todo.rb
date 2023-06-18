@@ -76,15 +76,6 @@ class SessionPersistence
     @session[:lists].select { |list| list[:id] == id }.first
   end
  
-  # Validates for out of range list index and words
-  def load_list(id)
-    list = find_list(id)
-    return list if list
-
-    # session[:error] = "The requested list does not exist."
-    # redirect "/lists"
-  end
-
   def all_lists
     @session[:lists]
   end
@@ -116,13 +107,13 @@ class SessionPersistence
   end
 
   def update_todo_status(list_id, todo_id, new_status)
-    list = load_list(list_id)
+    list = find_list(list_id)
     todo = select_todo(list[:todos], todo_id)
     todo[:complete] = new_status
   end
 
   def mark_all_todos_completed(list_id)
-    list = load_list(list_id)
+    list = find_list(list_id)
 
     if list[:todos].any?
       list[:todos].each { |todo| todo[:complete] = true }
@@ -150,6 +141,15 @@ class SessionPersistence
   def select_todo(todos, id)
     todos.select { |todo| todo[:id] === id.to_i }.first
   end
+end
+
+# Validates for out of range list index and words
+def load_list(id)
+  list = @storage.find_list(id)
+  return list if list
+
+  session[:error] = "The requested list does not exist."
+  redirect "/lists"
 end
 
 get '/' do
@@ -188,7 +188,7 @@ end
 # View a list
 get '/lists/:list_id' do
   @list_id = params[:list_id].to_i
-  @list = @storage.load_list(@list_id)
+  @list = load_list(@list_id)
 
   unless @list
     session[:error] = "The requested list does not exist."
@@ -201,7 +201,7 @@ end
 # Render an edit list form
 get '/lists/:list_id/edit' do
   @list_id = params[:list_id].to_i
-  @list = @storage.load_list(@list_id)
+  @list = load_list(@list_id)
 
   unless @list
     session[:error] = "The requested list does not exist."
@@ -214,7 +214,7 @@ end
 # Edits a list name
 post '/lists/:list_id' do
   @list_id = params[:list_id].to_i
-  @list = @storage.load_list(@list_id)
+  @list = load_list(@list_id)
   new_name = params[:list_name].strip
   error = error_for_list_name(new_name)
 
@@ -257,7 +257,7 @@ end
 # Add a todo to the list
 post "/lists/:list_id/todos" do
   @list_id = params[:list_id].to_i
-  @list = @storage.load_list(@list_id)
+  @list = load_list(@list_id)
   @todo = params[:todo].strip
   error = error_for_todo_name(@todo)
 
@@ -285,7 +285,7 @@ end
 post "/lists/:list_id/todos/:todo_id/delete" do
   @list_id = params[:list_id].to_i
   @todo_id = params[:todo_id].to_i
-  @list = @storage.load_list(@list_id)
+  @list = load_list(@list_id)
 
   unless @list
     session[:error] = "The requested list does not exist."
@@ -321,7 +321,7 @@ end
 # Complete all todos from the list
 post "/lists/:list_id/todos/complete_all" do
   @list_id = params[:list_id].to_i
-  list = @storage.load_list(@list_id)
+  list = load_list(@list_id)
 
   unless list
     session[:error] = "The requested list does not exist."
