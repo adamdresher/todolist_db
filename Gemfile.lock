@@ -43,6 +43,7 @@ GEM
     msgpack (1.7.1)
     multi_json (1.15.0)
     nio4r (2.5.9)
+    pg (1.5.3)
     proc (0.15.1)
       core-async (~> 0.10)
       core-global (~> 0.1)
@@ -84,6 +85,7 @@ PLATFORMS
 
 DEPENDENCIES
   erubis
+  pg
   proc
   puma
   sinatra (~> 1.4.7)
