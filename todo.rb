@@ -15,8 +15,7 @@ configure do
 end
 
 before do
-  @storage = DatabasePersistence.new
-  # @storage = SessionPersistence.new(session)
+  @storage = DatabasePersistence.new(logger)
 end
 
 helpers do
