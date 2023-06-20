@@ -15,15 +15,15 @@
   </header>
 
   <ul>
-    <% sort_todos(@list[:todos]) do |todo| %>
-      <li <%== "class='complete'" if todo[:complete] %> >
+    <% sort_todos(@list) do |todo| %>
+      <li <%== "class='complete'" if todo[:completed] == true %> >
 
         <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/update" method="post" class="check">
-          <input type="hidden" name="complete" value=<%= !todo[:complete] %> />
+          <input type="hidden" name="complete" value=<%= todo[:completed] == 'f' %> />
           <button type="submit"></button>
         </form>
 
-        <h3><%= todo[:name] %></h3>
+        <h3><%= todo[:description] %></h3>
 
         <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/delete" method="post" class="delete">
           <button type="submit">Delete</button>

@@ -30,8 +30,8 @@ helpers do
     completed_lists.each(&block)
   end
 
-  def sort_todos(todos, &block)
-    completed_todos, incompleted_todos = todos.partition { |todo| todo[:complete] }
+  def sort_todos(list, &block)
+    completed_todos, incompleted_todos = list[:todos].partition { |todo| todo['completed'] }
 
     incompleted_todos.each(&block)
     completed_todos.each(&block)
