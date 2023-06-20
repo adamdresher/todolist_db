@@ -11,16 +11,27 @@ class DatabasePersistence
     @db.exec_params(sql, params)
   end
 
+  def total_todos(list_id)
+    todos_from_list(list_id).field_values('description').size
+  end
+
+  def total_todos_remaining(list_id)
+    sql = "SELECT * FROM todos WHERE list_id = $1 AND completed = 'f';"
+    query(sql, list_id).ntuples
+  end
+
+  def todos_from_list(list_id)
+    sql = "SELECT * FROM todos WHERE list_id = $1;"
+    todos = query(sql, list_id)
+  end
+
   def find_list(id)
     sql = "SELECT * FROM lists WHERE id = $1;"
     result = query(sql, id)
     tuple = result.first
+    todos = todos_from_list(tuple[:id]).field_values('description')
 
-    { id: tuple["id"], name: tuple["name"], todos: [] }
-    # sql = "SELECT * FROM todos WHERE list_id = $1;"
-    # todos = query(sql, tuple[:id]).field_values('description')
-
-    # { id: tuple["id"], name: tuple["name"], todos: todos }
+    { id: tuple["id"], name: tuple["name"], todos: todos }
   end
  
   def all_lists
@@ -28,11 +39,9 @@ class DatabasePersistence
     result = query(sql)
 
     result.map do |tuple|
-      { id: tuple["id"], name: tuple["name"], todos: [] }
-      # sql = "SELECT * FROM todos WHERE list_id = $1;"
-      # todos = query(sql, tuple[:id]).field_values('description')
+      todos = todos_from_list(tuple['id']).field_values('description')
 
-      # { id: tuple["id"], name: tuple["name"], todos: todos }
+      { id: tuple["id"], name: tuple["name"], todos: todos }
     end
   end
 

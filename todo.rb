@@ -19,16 +19,8 @@ before do
 end
 
 helpers do
-  def total_todos(list)
-    list[:todos].size
-  end
-
-  def total_todos_remaining(list)
-    list[:todos].select { |todo| !todo[:complete] }.size
-  end
-
   def list_status(list)
-    'complete' if total_todos(list) > 0 && total_todos_remaining(list).zero?
+    'complete' if @storage.total_todos(list) > 0 && @storage.total_todos_remaining(list).zero?
   end
 
   def sort_lists(lists, &block)
