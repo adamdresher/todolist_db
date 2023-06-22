@@ -92,14 +92,12 @@ post '/lists' do
 
   if error
     session[:error] = error
-    # @storage[:error] = error
     redirect '/lists/new'
   else
     puts "list_name: #{list_name} is a #{list_name}"
     @storage.create_new_list(list_name)
 
     session[:success] = 'A new list has been added.'
-    # @storage[:success] = 'A new list has been added.'
     redirect '/lists'
   end
 end
@@ -144,14 +142,11 @@ post '/lists/:list_id' do
 
   if error
     session[:error] = error
-    # @storage[:error] = error
     session[:invalid_name] = new_name
-    # @storage[:invalid_name] = new_name
     redirect "lists/#{@list_id}/edit"
   else
     @storage.update_list_name(@list_id, new_name)
     session[:success] = "A list's name has been changed."
-    # @storage[:success] = "A list's name has been changed."
     redirect "/lists/#{@list_id}"
   end
 end
@@ -163,13 +158,11 @@ post "/lists/:list_id/delete" do
   @storage.delete_list(id)
 
   session[:success] = "A list has been deleted."
-  # @storage[:success] = "A list has been deleted."
 
   if env['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest'
     '/lists'
   else
     session[:success] = "A list has been deleted."
-    # @storage[:success] = "A list has been deleted."
     redirect "/lists"
   end
 end
@@ -188,9 +181,7 @@ post "/lists/:list_id/todos" do
 
   if error
     session[:error] = error
-    # @storage[:error] = error
     session[:invalid_todo_name] = @todo
-    # @storage[:invalid_todo_name] = @todo
   else
 
     @storage.create_new_todo(@list_id, @todo)
@@ -218,7 +209,6 @@ post "/lists/:list_id/todos/:todo_id/delete" do
     status 204
   else
     session[:success] = "A todo has been deleted."
-    # @storage[:success] = "A todo has been deleted."
     redirect "/lists/#{@list_id}"
   end
 end
@@ -230,11 +220,9 @@ post "/lists/:list_id/todos/:todo_id/update" do
   @todo_id = params[:todo_id].to_i
   is_completed = (params[:complete] == 'true')
 
-  # @storage.update_todo_status(@todo_id, is_completed)
   @storage.update_todo_status(@todo_id, @list_id, is_completed)
 
   session[:success] = "A todo has been updated."
-  # @storage[:success] = "A todo has been updated."
   
   redirect "/lists/#{@list_id}"
 end
@@ -257,3 +245,4 @@ post "/lists/:list_id/todos/complete_all" do
 
   redirect "/lists/#{@list_id}"
 end
+

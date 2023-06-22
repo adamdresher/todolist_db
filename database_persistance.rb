@@ -78,14 +78,6 @@ class DatabasePersistence
     @db.query(sql, [list_id])
   end
 
-#   def message[]=(type, message)
-#     @session[type] = message
-#   end
-# 
-#   def message[](type)
-#     @session[type]
-#   end
-
   private
 
   def find_todos_from_list(list_id)
@@ -98,15 +90,5 @@ class DatabasePersistence
         completed: todo['completed'] == 't' }
     end
   end
-
-  # Return 1 if no list found
-  # def next_id(elements)
-  #   max_id = elements.map { |element| element[:id] }.max || 0
-  #   max_id + 1
-  # end
-
-  # def select_todo(todos, id)
-  #   todos.select { |todo| todo[:id] === id.to_i }.first
-  # end
 end
 
