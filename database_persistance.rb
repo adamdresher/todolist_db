@@ -56,17 +56,11 @@ class DatabasePersistence
   def create_new_todo(list_id, description)
     sql = "INSERT INTO todos (description, list_id) VALUES ($1, $2);"
     @db.query(sql, [description, list_id])
-    # list = find_list(list_id)
-    # id = next_id(list[:todos])
-    # list[:todos] << { id: id, name: todo }
   end
 
   def delete_todo(todo_id, list_id)
     sql = "DELETE FROM todos WHERE id = $1 AND list_id = $2;"
     @db.query(sql, [todo_id, list_id])
-    # list = find_list(list_id)
-    # todo = select_todo(list[:todos], todo_id)
-    # list[:todos].delete(todo)
   end
 
   def delete_list(id)
@@ -74,30 +68,14 @@ class DatabasePersistence
     @db.query(sql, [id])
   end
 
-  # def todo_is_completed?(todo_id)
-  #   sql = "SELECT completed FROM todos WHERE id = #{todo_id};"
-  #   @db.query(sql).values.first.first == 't'
-  # end
-
-  # def update_todo_status(todo_id, is_completed)
   def update_todo_status(todo_id, list_id, new_status)
     sql = "UPDATE todos SET completed = $3 WHERE id = $1 AND list_id = $2;"
     @db.query(sql, [todo_id, list_id, new_status])
-    # list = find_list(list_id)
-    # todo = select_todo(list[:todos], todo_id)
-    # todo[:complete] = new_status
   end
 
   def mark_all_todos_completed(list_id)
     sql = "UPDATE todos SET completed = true WHERE list_id = $1;"
     @db.query(sql, [list_id])
-    # list = find_list(list_id)
-
-    # if list[:todos].any?
-    #   list[:todos].each { |todo| todo[:complete] = true }
-    #   # session[:success] = 'All todos have been marked complete.'
-    #   # @storage[:success] = 'All todos have been marked complete.'
-    # end
   end
 
 #   def message[]=(type, message)
