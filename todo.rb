@@ -92,9 +92,10 @@ post '/lists' do
 
   if error
     session[:error] = error
-    @storage[:error] = error
+    # @storage[:error] = error
     redirect '/lists/new'
   else
+    puts "list_name: #{list_name} is a #{list_name}"
     @storage.create_new_list(list_name)
 
     session[:success] = 'A new list has been added.'
@@ -148,7 +149,7 @@ post '/lists/:list_id' do
     # @storage[:invalid_name] = new_name
     redirect "lists/#{@list_id}/edit"
   else
-    @storage.update_list_name(@list_id, new_name.strip)
+    @storage.update_list_name(@list_id, new_name)
     session[:success] = "A list's name has been changed."
     # @storage[:success] = "A list's name has been changed."
     redirect "/lists/#{@list_id}"
@@ -158,6 +159,7 @@ end
 # Delete a list
 post "/lists/:list_id/delete" do
   id = params[:list_id].to_i
+  puts "id: #{id} is a #{id.class}"
   @storage.delete_list(id)
 
   session[:success] = "A list has been deleted."
