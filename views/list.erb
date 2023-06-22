@@ -19,7 +19,7 @@
       <li <%== "class='complete'" if todo[:completed] == true %> >
 
         <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/update" method="post" class="check">
-          <input type="hidden" name="complete" value=<%= todo[:completed] == 'f' %> />
+          <input type="hidden" name="complete" value=<%= todo[:completed] == false %> />
           <button type="submit"></button>
         </form>
 

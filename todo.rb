@@ -34,7 +34,7 @@ helpers do
   end
 
   def sort_todos(list, &block)
-    completed_todos, incompleted_todos = list[:todos].partition { |todo| todo['completed'] }
+    completed_todos, incompleted_todos = list[:todos].partition { |todo| todo[:completed] }
 
     incompleted_todos.each(&block)
     completed_todos.each(&block)
@@ -212,7 +212,7 @@ post "/lists/:list_id/todos/:todo_id/delete" do
     redirect "/lists"
   end
 
-  @storage.delete_todo(@list_id, @todo_id)
+  @storage.delete_todo(@todo_id, @list_id)
 
   if env['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest'
     status 204
@@ -230,7 +230,8 @@ post "/lists/:list_id/todos/:todo_id/update" do
   @todo_id = params[:todo_id].to_i
   is_completed = (params[:complete] == 'true')
 
-  @storage.update_todo_status(@list_id, @todo_id, is_completed)
+  # @storage.update_todo_status(@todo_id, is_completed)
+  @storage.update_todo_status(@todo_id, @list_id, is_completed)
 
   session[:success] = "A todo has been updated."
   # @storage[:success] = "A todo has been updated."
