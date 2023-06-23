@@ -2,8 +2,17 @@ require 'pg'
 
 class DatabasePersistence
   def initialize(logger)
-    @db = PG.connect(dbname: 'todos')
+    @db = if Sinatra::Base.production?
+            PG.connect(ENV['DATABASE_URL'])
+          else
+            PG.connect(dbname: 'todos')
+          end
+    # @db = PG.connect(dbname: 'todos')
     @logger = logger
+  end
+
+  def disconnect
+    @db.close
   end
 
   def query(sql, *params)
@@ -49,8 +58,13 @@ class DatabasePersistence
   end
 
   def update_list_name(id, new_name)
-    sql = "UPDATE lists SET name = $2 WHERE id = $1;"
+    sql = "UPDATE lists SET name = $1 WHERE id = $2;"
     @db.query(sql, [new_name, id])
+  end
+
+  def delete_list(id)
+    sql = "DELETE FROM lists WHERE id = $1;"
+    @db.query(sql, [id])
   end
 
   def create_new_todo(list_id, description)
@@ -61,11 +75,6 @@ class DatabasePersistence
   def delete_todo(todo_id, list_id)
     sql = "DELETE FROM todos WHERE id = $1 AND list_id = $2;"
     @db.query(sql, [todo_id, list_id])
-  end
-
-  def delete_list(id)
-    sql = "DELETE FROM lists WHERE id = $1;"
-    @db.query(sql, [id])
   end
 
   def update_todo_status(todo_id, list_id, new_status)
