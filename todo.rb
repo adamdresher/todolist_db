@@ -27,7 +27,10 @@ end
 
 helpers do
   def list_status(list)
-    'complete' if @storage.total_todos(list) > 0 && @storage.total_todos_remaining(list).zero?
+    total_todos = @storage.total_todos(list[:id])
+    total_todos_completed = @storage.total_todos_completed(list[:id])
+
+    'complete' if total_todos > 0 && total_todos == total_todos_completed
   end
 
   def sort_lists(lists, &block)

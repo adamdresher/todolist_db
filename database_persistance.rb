@@ -21,7 +21,7 @@ class DatabasePersistence
   end
 
   def total_todos(list_id)
-    find_todos_from_list(list_id).map { |todo| todo['description'] }.size
+    find_todos_from_list(list_id).size
   end
 
   def total_todos_completed(list_id)
