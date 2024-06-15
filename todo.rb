@@ -27,10 +27,7 @@ end
 
 helpers do
   def list_status(list)
-    total_todos = @storage.total_todos(list[:id])
-    total_todos_completed = @storage.total_todos_completed(list[:id])
-
-    'complete' if total_todos > 0 && total_todos == total_todos_completed
+    'complete' if list[:total_todos] > 0 && list[:total_todos] == list[:total_todos_completed]
   end
 
   def sort_lists(lists, &block)
@@ -40,8 +37,8 @@ helpers do
     completed_lists.each(&block)
   end
 
-  def sort_todos(list, &block)
-    completed_todos, incompleted_todos = list[:todos].partition { |todo| todo[:completed] }
+  def sort_todos(todos, &block)
+    completed_todos, incompleted_todos = todos.partition { |todo| todo[:completed] }
 
     incompleted_todos.each(&block)
     completed_todos.each(&block)
@@ -113,6 +110,7 @@ end
 get '/lists/:list_id' do
   @list_id = params[:list_id].to_i
   @list = load_list(@list_id)
+  @todos = @storage.find_todos_from_list(@list_id)
 
   unless @list
     session[:error] = "The requested list does not exist."

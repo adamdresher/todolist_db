@@ -15,7 +15,7 @@
   </header>
 
   <ul>
-    <% sort_todos(@list) do |todo| %>
+    <% sort_todos(@todos) do |todo| %>
       <li <%== "class='complete'" if todo[:completed] == true %> >
 
         <form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/update" method="post" class="check">

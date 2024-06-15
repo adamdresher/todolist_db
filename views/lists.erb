@@ -3,7 +3,7 @@
     <li class="<%= list_status(list) %>" >
       <a href="/lists/<%= list[:id] %>">
         <h2><%= list[:name] %></h2> 
-        <p><%= @storage.total_todos_completed(list[:id]) %> / <%= @storage.total_todos(list[:id]) %></p>
+        <p><%= list[:total_todos_completed] %> / <%= list[:total_todos] %></p>
       </a>
     </li>
   <% end %>
